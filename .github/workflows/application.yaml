@@ -10,6 +10,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,7 +29,7 @@ jobs:
       - name: Maven Build
         run: |
           mvn package spring-boot:repackage -DskipTests
-      -name: Versioning
+      - name: Versioning
         run: |
           touch version.txt
           date +%s >> version.txt
@@ -37,4 +38,5 @@ jobs:
         with:
           name: artifacts
           path: |
-            target/*.jar
+              target/*.jar
+

@@ -79,6 +79,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-gitops
           flavor: latest=true
+          labels: |
+            org.opencontainers.image.source=${{GITHUB_SERVER_URL}}/${{GITHUB_REPOSITORY}}-gitops
+            org.opencontainers.image.url=${{GITHUB_SERVER_URL}}/${{GITHUB_REPOSITORY}}-gitops
           tags: |
             type=ref,event=branch
             type=ref,event=pr

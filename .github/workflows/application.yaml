@@ -54,6 +54,8 @@ jobs:
               target/version.txt
 
   image:
+    needs:
+      - build
     runs-on: ubuntu-20.04
     permissions:
       contents: read

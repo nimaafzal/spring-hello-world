@@ -33,10 +33,12 @@ jobs:
         run: |
           touch version.txt
           date +%s >> version.txt
+          mv ./version.txt ./target
       - name: Artifact
         uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: |
               target/*.jar
+              target/version.txt
 

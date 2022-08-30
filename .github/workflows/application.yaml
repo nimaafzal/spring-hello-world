@@ -138,7 +138,7 @@ jobs:
         run: |
           ls -la
           ls -la spring-hello-world-gitops
-          cat ops/version >> spring-hello-world-gitops/services/hello-world/versions.txt
+          cat ops/version.txt >> spring-hello-world-gitops/services/hello-world/versions.txt
           cd spring-hello-world-gitops
           git config user.name 'Nima Afzal'
           git config user.email 'nima.afzal@gmail.com'

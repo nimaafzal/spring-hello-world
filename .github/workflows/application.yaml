@@ -82,7 +82,7 @@ jobs:
         run: |
           pwd
           mkdir ops
-          git pull https://github.com/nimaafzal/spring-hello-world-gitops.git
+          git clone https://github.com/nimaafzal/spring-hello-world-gitops.git
           mv spring-hello-world-gitops/hello-world/Dockerfile ops/
           ls -la ops/
 

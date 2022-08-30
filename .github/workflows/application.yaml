@@ -8,6 +8,10 @@ on:
   pull_request:
     branches:
       - "main"
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 
 jobs:
   build:
@@ -60,9 +64,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    env:
-      REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}
 
 
     steps:
@@ -71,6 +72,17 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          flavor: latest=true
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
 
       - name: Log into registry ${{ env.REGISTRY }}
         if: github.ref_type == 'tag'
@@ -105,9 +117,12 @@ jobs:
           path: |
             ops/*
 
-#      - name: Build and push
-#        uses: docker/build-push-action@v3
-#        with:
-#          context: .
-#          file:
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ops/
+          file: ops/Dockerfile
+          push: ${{ github.ref_type == 'tag' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 

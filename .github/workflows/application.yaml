@@ -133,7 +133,7 @@ jobs:
         with:
           repository: ${{ github.repository }}-gitops
           path: spring-hello-world-gitops
-          token: ${{ secret.PAT }}
+          token: ${{ secrets.PAT }}
 
       - name: dwd
         run: |

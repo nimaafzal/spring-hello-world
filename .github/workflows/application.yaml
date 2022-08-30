@@ -83,6 +83,9 @@ jobs:
           pwd
           mkdir ops
           git clone https://github.com/nimaafzal/spring-hello-world-gitops.git
+          ls -la
+          ls -la ./spring-hello-world-gitops
+          ls -la spring-hello-world-gitops
           mv spring-hello-world-gitops/hello-world/Dockerfile ops/
           ls -la ops/
 

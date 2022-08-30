@@ -78,11 +78,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-gitops
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           flavor: latest=true
-          labels: |
-            org.opencontainers.image.source=${{env.GITHUB_SERVER_URL}}/${{github.repository }}-gitops
-            org.opencontainers.image.url=${{env.GITHUB_SERVER_URL}}/${{github.repository }}-gitops
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -101,7 +98,7 @@ jobs:
           pwd
           mkdir ops
           git clone https://github.com/nimaafzal/spring-hello-world-gitops.git
-          mv spring-hello-world-gitops/services/hello-world/Dockerfile ops/
+          cp spring-hello-world-gitops/services/hello-world/Dockerfile ops/
           ls -la ops/
 
       - name: Download artifact
@@ -129,4 +126,24 @@ jobs:
           push: ${{ github.ref_type == 'tag' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+
+      - name: Push
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}-gitops
+          path: spring-hello-world-gitops
+
+      - name: dwd
+        run: |
+          ls -la
+          ls -la spring-hello-world-gitops
+          cat ops/version >> spring-hello-world-gitops/services/hello-world/versions.txt
+          cd spring-hello-world-gitops
+          git config user.name 'Nima Afzal'
+          git config user.email 'nima.afzal@gmail.com'
+          git add .
+          git commit -m "feat: add a new version"
+          git push origin main
+          
 
